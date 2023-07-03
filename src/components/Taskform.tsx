@@ -5,22 +5,45 @@ import styles from "./TaskForm.module.css"
 
 // Interface
 import { ITask } from "../interfaces/Task"
+import Tasklist from './Tasklist';
 
 
 interface Props {
     btnText: string;
+    taskList: ITask[];
+    setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>
 }
 
-const Taskform = ({btnText}: Props) => {
+const Taskform = ({btnText, taskList, setTaskList}: Props) => {
 
 
   const [id, setId] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
-  const [dificulty, setDifficulty] = useState<number>(0);
+  const [difficulty, setDifficulty] = useState<number>(0);
 
-  const addTaskHandler = () => {}
+  const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleChange = () => {}
+    const id = Math.floor(Math.random() * 1000)
+
+    const newTask: ITask = {id, title, difficulty}
+
+    setTaskList!([...taskList, newTask])
+
+    setTitle("");
+    setDifficulty(0)
+
+    console.log(taskList)
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.name === "title"){
+      setTitle(e.target.value)
+    } else {
+      setDifficulty(parseInt(e.target.value))
+    }
+
+  }
 
 
   return (
